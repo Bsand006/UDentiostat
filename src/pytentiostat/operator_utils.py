@@ -37,7 +37,7 @@ def _signal_handler(signum, frame):
 signal.signal(signal.SIGINT, _signal_handler)
 
 
-def start_exp(d9, normalized_start, data):
+def start_exp(a0, a2, d9, normalized_start, data):
     """Initializes the writing pin.
 
     Parameters
