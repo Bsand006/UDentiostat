@@ -36,20 +36,33 @@ def _load_arduino():
     com: string
         the COM port the arduino is connected to.
     """
+
+    ARDUINO_KEYWORDS = [
+        "arduino",      # Windows/Mac: "Arduino Uno (COM3)"
+        "usbmodem",     # macOS: "/dev/cu.usbmodem14201"
+        "ttyACM",       # Linux: "/dev/ttyACM0"
+        "ttyUSB",       # Linux (CH340 clones): "/dev/ttyUSB0"
+    ]
+
+
     print("Searching for potentiostat...")
     ports = list(serial.tools.list_ports.comports())
-   # print(ports)
-    n_arduinos = 0
-    for p in ports:  # Checking for Arduino Unos connected
-        print(p.description)
-        if "USB" in p.description:
-            com = p.device
-            n_arduinos += 1
-    if n_arduinos > 1:
-        sys.exit("More than one Arduino Uno found. Exiting...")
-    if n_arduinos == 0:
+
+    found = []
+    for p in ports:
+        description = (p.description or "").lower()
+        device = (p.device or "").lower()
+
+        if any(kw.lower() in description or kw.lower() in device for kw in ARDUINO_KEYWORDS):
+            found.append(p.device)
+            print(f"  Found: {p.description} on {p.device}")
+
+    if len(found) > 1:
+        sys.exit(f"More than one Arduino Uno found: {found}. Exiting...")
+    if len(found) == 0:
         sys.exit("No JUAMI potentiostat found. Exiting...")
-    return com
+
+    return found[0]
 
 def _initialize_arduino(com):
     """Creates board object with Arduino(). If the connection fails it prints

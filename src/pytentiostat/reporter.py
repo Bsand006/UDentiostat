@@ -31,8 +31,13 @@ def save_data_to_file(
     filename, export_path = get_output_params(
         config_data, override_ts=override_ts
     )
-    if override_outpath:
-        export_path = override_outpath
+    
+    export_path = override_outpath if override_outpath else os.getcwd()
+
+    os.makedirs(export_path, exist_ok=True)
+
+    full_path = os.path.join(export_path, filename)
+
     list_data = list(data)
     df = pd.DataFrame(
         data=list_data, columns=["Time(s)", "Voltage(V)", "Current(mA)"]
