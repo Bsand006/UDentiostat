@@ -1,4 +1,4 @@
-pyfirmata
+pyfirmata2
 matplotlib
 pyyaml
 pandas
