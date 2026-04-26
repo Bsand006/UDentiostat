@@ -38,7 +38,7 @@ def _load_arduino():
     """
 
     ARDUINO_KEYWORDS = [
-        "arduino",      # Windows/Mac: "Arduino Uno (COM3)"
+        "COM",      # Windows/Mac: "Arduino Uno (COM3)"
         "usbmodem",     # macOS: "/dev/cu.usbmodem14201"
         "ttyACM",       # Linux: "/dev/ttyACM0"
         "ttyUSB",       # Linux (CH340 clones): "/dev/ttyUSB0"
